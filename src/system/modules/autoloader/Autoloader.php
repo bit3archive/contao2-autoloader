@@ -1,5 +1,7 @@
 <?php
 
+include(dirname(dirname(dirname(__FILE__))) . '/libraries/ApcCache.php');
+
 class Autoloader
 {
 	/**
@@ -22,14 +24,16 @@ class Autoloader
 		$strBuffer = str_replace('function __autoload', "\$strFile = dirname(__FILE__) . '/modules/autoloader/Autoloader.php';
 
 if (file_exists(\$strFile)) {
-    include(\$strFile);
+	include(\$strFile);
 
-    // Register the custom autoloader
-    spl_autoload_register(array('Autoloader', 'autoload'));
+	// Register the custom autoloader
+	spl_autoload_register(array('Autoloader', 'autoload'));
 }
 else {
 	spl_autoload_register('contao_autoload');
 }
+
+unset(\$strFile);
 
 function contao_autoload", $strBuffer);
 		file_put_contents($strFile, $strBuffer);
@@ -82,9 +86,7 @@ function contao_autoload", $strBuffer);
 	 */
 	public static function autoload($strClassName)
 	{
-		var_dump($strClassName);
-		exit;
-		$objCache = FileCache::getInstance('autoload');
+		$objCache = ApcCache::getInstance('autoload');
 
 		// Try to load the class name from the session cache
 		if (!$GLOBALS['TL_CONFIG']['debugMode'] && isset($objCache->$strClassName)) {

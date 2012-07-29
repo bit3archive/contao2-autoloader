@@ -7,6 +7,11 @@ and replace the default __autoload function with an spl_autoload function.
 The module is only usefull if you use Contao 2,
 Contao 3 allready use spl_autoload and does not need this modification.
 
+Dependencies
+------------
+
+* ApcCache https://github.com/InfinitySoft/contao-apccache
+
 How to use
 ----------
 
